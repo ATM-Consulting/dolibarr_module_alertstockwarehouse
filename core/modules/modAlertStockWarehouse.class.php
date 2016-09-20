@@ -165,7 +165,15 @@ class modAlertStockWarehouse extends DolibarrModules
 
         // Boxes
 		// Add here list of php file(s) stored in core/boxes that contains class to show a box.
-        $this->boxes = array();			// List of boxes
+		$this->boxes=array(0=>array('file'=>'alertstockwarehousebox.php@alertstockwarehouse'));
+		
+		//array(
+		
+		  //  0=>array('file'=>'alertstockwarehouse_box.php','note'=>'AGVDSG','enabledbydefaulton'=>'Home')
+		//    1=>array('file'=>'myboxb.php@mymodule','note'=>''),
+		//    2=>array('file'=>'myboxc.php@mymodule','note'=>'')
+		//);
+		
 		// Example:
 		//$this->boxes=array(array(0=>array('file'=>'myboxa.php','note'=>'','enabledbydefaulton'=>'Home'),1=>array('file'=>'myboxb.php','note'=>''),2=>array('file'=>'myboxc.php','note'=>'')););
 

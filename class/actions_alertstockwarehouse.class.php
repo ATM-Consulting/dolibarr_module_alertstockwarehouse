@@ -66,7 +66,8 @@ class ActionsAlertStockWarehouse
 		if (in_array('stockproductcard', explode(':', $parameters['context'])))
 		{
 			
-			$stocklimit = GETPOST(substr($action, 3));
+			$fk_product = GETPOST('id', 'int');
+			
 			define('INC_FROM_DOLIBARR',true);
 		
 			dol_include_once('/alertstockwarehouse/config.php');
@@ -77,57 +78,49 @@ class ActionsAlertStockWarehouse
 			//Creation/Modification de la donnée
 			if (strpos($action ,  'setlimite_') === 0)
 			{
-				
-				
-				
+				$stocklimit = GETPOST(substr($action, 3), 'int');
 				$TRes = explode('_',$action);
 				
 				$stock = new TStock;
 				
-				$stock->fetch($TRes[1], GETPOST("id"));
-								
+				$stock->fetch($TRes[1], $fk_product);
 				
-				
-   			//	$result=$stock->;
-   				
-   				$stock->fk_product = GETPOST("id");
+   			
+   				$PDOdb = new TPDOdb;
+   				$stock->fk_product = $fk_product;
    				$stock->fk_entrepot = $TRes[1];
 				$stock->limite = $stocklimit;
-				$stock->create();
-				//$result=$stock->update($stock->id,$user,0,'update');
+				//
+				if($stocklimit == NULL){
+					$stock->delete($PDOdb);
+				}else {
+				
+					$stock->save($PDOdb);
+				}
+				
 				 if ($result < 0)
 				    setEventMessages($object->error, $object->errors, 'errors');
-				    //else
-				    //	setEventMessage($lans->trans("SavedRecordSuccessfully"));
-				  $action='';
+				  
+				$action='';
 			}
 			
-			//Affichage des données
-			$sql = "SELECT e.rowid, e.label, abs.limite, p.rowid AS idproduct";
+			//Récupération des données
+			$sql = "SELECT e.rowid, e.label, e.entity, abs.fk_product, abs.limite";
 			$sql.= " FROM ".MAIN_DB_PREFIX."entrepot as e";
-			$sql.= " LEFT JOIN ".MAIN_DB_PREFIX."alert_by_stock as abs ON abs.fk_entrepot = e.rowid";
-			$sql.= " LEFT JOIN ".MAIN_DB_PREFIX."product as p ON p.rowid = abs.fk_product";
-			$sql.= " AND e.entity IN (".getEntity('stock', 1).")";
-			$sql.= " ORDER BY e.rowid";
+			$sql.= ' LEFT JOIN '.MAIN_DB_PREFIX.'alert_by_stock as abs ON (abs.fk_entrepot = e.rowid AND abs.fk_product = '.(int) $fk_product.')';
+			$sql.= " ORDER BY e.label";
 			
 			$resql=$db->query($sql);
-			$num = $db->num_rows($resql);
 			
-			
-			
-			
-			
-			while ($i < $num)
+			if ($resql && $db->num_rows($resql) > 0)
 			{
-				$obj = $db->fetch_object($resql);
-
 				$form = new Form($db);
-									
-				print '<tr><td>'.$form->editfieldkey("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer).'</td><td colspan="2">';
-			    print $form->editfieldval("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer,'string');
-			    print '</td></tr>';
-				
-				$i++;
+				while ($obj = $db->fetch_object($resql))
+				{
+					print '<tr><td>'.$form->editfieldkey("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer).'</td><td colspan="2">';
+				    print $form->editfieldval("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer,'string');
+				    print '</td></tr>';
+				}
 			}
 			
 		}

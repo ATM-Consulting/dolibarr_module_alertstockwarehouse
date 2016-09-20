@@ -94,7 +94,7 @@ dol_fiche_head(
     0,
     "alertstockwarehouse@alertstockwarehouse"
 );
-/*
+
 // Setup page goes here
 $form=new Form($db);
 $var=false;
@@ -128,7 +128,7 @@ print ajax_constantonoff('CONSTNAME');
 print '</td></tr>';
 
 print '</table>';
-*/
+
 llxFooter();
 
 $db->close();

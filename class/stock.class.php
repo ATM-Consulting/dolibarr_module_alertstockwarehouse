@@ -31,18 +31,7 @@ class TStock extends TObjetStd {
 		return TRequeteCore::_get_id_by_sql($PDOdb, $sql, 'label','rowid');
 	}
 	
-	/*function update() {
-			
-			global $db, $conf, $user;
-			
-			
-			
-			$sql= "UPDATE  ".MAIN_DB_PREFIX."alert_by_stock SET  limite =  '".$this->limite."' WHERE  fk_entrepot =".$this->fk_entrepot." AND fk_product=".$this->fk_product;
-				
-			$db->query($sql);
-			
-			
-		}*/
+	
 	//Recuperation des données
 	function fetch($idEntrepot, $idProduct){
 		global $db, $conf, $user;
@@ -62,27 +51,6 @@ class TStock extends TObjetStd {
 			}
 		}
 		
-		//Creation/Update
-		function create(){
-			global $db, $conf, $user;
-			
-			$PDOdb = new TPDOdb;
-			
-			//if($this->exist){
-				$this->save($PDOdb);
-				/*$sql= "INSERT INTO ".MAIN_DB_PREFIX."alert_by_stock (
-					`rowid` ,
-					`fk_entrepot` ,
-					`fk_product` ,
-					`limite` 
-					)
-				VALUES (
-					NULL ,  '".$this->fk_entrepot."',  '".$this->fk_product."',  '".$this->limite."'
-				);";
-				$db->query($sql);*/
-			/*} else {
-				$this->update();
-			}*/
-		}
+	
 	
 } 
