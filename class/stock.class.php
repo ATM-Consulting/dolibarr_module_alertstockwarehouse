@@ -26,12 +26,21 @@ class TAlertStockWarehouse extends TObjetStd {
 	function loadByWarehouseProduct(&$PDOdb, $fk_warehouse, $fk_product){
 			
 		
-		global $db, $conf, $user;
+		
 			$sql="SELECT rowid FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_entrepot = ".$fk_warehouse. " AND fk_product = ".$fk_product;
-			$result = $db->query($sql);
-			$donnees = $db->fetch_object($result);
-			$this->load($PDOdb, $donnees->rowid);
+			$PDOdb->Execute($sql);
+			$obj = $PDOdb->Get_line();
+			$this->load($PDOdb, $obj->rowid);
 		
 	}
+	static function deleteForProduct(&$PDOdb, $fk_product) {
+       		$sql = "DELETE FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_product=".$fk_product;
+			$PDOdb->Execute($sql);
+    }
+	static function deleteForWarehouse(&$PDOdb, $fk_warehouse) {
+       		$sql = "DELETE FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_entrepot=".$fk_warehouse;
+			$PDOdb->Execute($sql);
+    }
+	
 
 } 

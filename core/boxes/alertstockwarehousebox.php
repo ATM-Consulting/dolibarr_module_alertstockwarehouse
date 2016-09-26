@@ -47,8 +47,8 @@ class alertstockwarehousebox extends ModeleBoxes
     {
         global $langs;
         $langs->load("boxes");
-		
-        $this->boxlabel = $langs->transnoentitiesnoconv("Seuil limite d'alerte en fonction d'un entrepot");
+		$langs->load("alertstockwarehouse@alertstockwarehouse");
+        $this->boxlabel = $langs->trans("BoxAlertStockWarehouse");
     }
 
     /**
@@ -64,9 +64,7 @@ class alertstockwarehousebox extends ModeleBoxes
 
         $this->max = $max;
 
-        
-		
-        $text = $langs->trans("Produits en alerte stock en fonction de son entrepot", $max);
+        $text = $langs->trans("BoxTitleAlertStockWarehouse", $max);
         $this->info_box_head = array(
             'text' => $text,
             'limit' => dol_strlen($text)

@@ -1,7 +1,12 @@
 Module104019Name = AlertStockWarehouse
-Module104019Desc = AlertStockWarehouse Description
+Module104019Desc = Module permettant de mettre des seuils d'alerte différents en fonction des differents entrepots 
 
 ATMAbout = Ce module a été développé par <a href="http://www.atm-consulting.fr" target="_blank">ATM Consulting</a><br>Vous pouvez retrouver la documentation sur notre <a href="http://wiki.atm-consulting.fr/index.php/Accueil" target="_blank">wiki</a><br><br>Pour toute question technique ou retour, contactez-nous sur <a href="mailto:support@atm-consulting.fr">support@atm-consulting.fr</a><br><br>Pour toute question commerciale, contactez-nous sur <a href="mailto:contact@atm-consulting.fr">contact@atm-consulting.fr</a> ou au +33 9 77 19 50 70<br><br>Retrouvez nos autres modules sur <a href="http://www.dolistore.com/search.php?orderby=position&orderway=desc&search_query=atm&submit_search=Rechercher" target="_blank">Dolistore</a>
 
 AlertStockWarehouseSetup = Configuration du module AlertStockWarehouse
 AlertStockWarehouseAbout = A propos du module AlertStockWarehouse
+
+BoxAlertStockWarehouse = Seuil limite d'alerte en fonction d'un entrepot
+LabelLimitList = Seuil limite d'alerte pour l'entrepot  
+phtest=totototo
+BoxTitleAlertStockWarehouse = Produits en alerte stock en fonction de leurs entrepot

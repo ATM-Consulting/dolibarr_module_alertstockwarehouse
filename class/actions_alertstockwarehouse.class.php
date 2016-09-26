@@ -61,7 +61,7 @@ class ActionsAlertStockWarehouse
 	 */
 	function formObjectOptions($parameters, &$object, &$action, $hookmanager)
 	{
-		global $db, $user;
+		global $db, $user, $langs;
 		//Dans la vue produit, onglet stock
 		if (in_array('stockproductcard', explode(':', $parameters['context'])))
 		{
@@ -79,16 +79,17 @@ class ActionsAlertStockWarehouse
 			if (strpos($action ,  'setlimite_') === 0)
 			{
 				$stocklimit = GETPOST(substr($action, 3), 'int');
-				$TRes = explode('_',$action);
+				list($dummy, $fk_warehouse) = explode('_',$action);
 				
    				$PDOdb = new TPDOdb;
 				$stock = new TAlertStockWarehouse;
 				//On récupère l'objet stock (seuil/produit/stock) 
-				$stock->loadByWarehouseProduct($PDOdb,$TRes[1], $fk_product);
+			
+				$stock->loadByWarehouseProduct($PDOdb,$fk_warehouse, $fk_product);
 				
    			
    				$stock->fk_product = $fk_product;
-   				$stock->fk_entrepot = $TRes[1];
+   				$stock->fk_entrepot = $fk_warehouse;
 				$stock->limite = $stocklimit;
 				//Si le champ a été vidé, suppression en bdd
 				if($stocklimit == NULL){
@@ -119,8 +120,8 @@ class ActionsAlertStockWarehouse
 				//Affichage liste des seuils limite d'alerte 
 				while ($obj = $db->fetch_object($resql))
 				{
-					print '<tr><td>'.$form->editfieldkey("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer).'</td><td colspan="2">';
-				    print $form->editfieldval("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer,'string');
+					print '<tr><td>'.$form->editfieldkey($langs->trans("LabelLimitList")." ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer).'</td><td colspan="2">';
+				    print $form->editfieldval($langs->trans("LabelLimiteList")." ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer,'string');
 				    print '</td></tr>';
 				}
 			}
