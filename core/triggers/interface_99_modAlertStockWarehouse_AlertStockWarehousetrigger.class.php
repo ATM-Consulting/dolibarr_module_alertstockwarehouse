@@ -113,6 +113,7 @@ class InterfaceAlertStockWarehousetrigger
      */
     public function run_trigger($action, $object, $user, $langs, $conf)
     {
+    	global $db, $user, $conf;
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Users
@@ -219,6 +220,21 @@ class InterfaceAlertStockWarehousetrigger
                 "Trigger '" . $this->name . "' for action '$action' launched by " . __FILE__ . ". id=" . $object->id
             );
         } elseif ($action == 'PRODUCT_DELETE') {
+        	//Suppression des lignes de la table alert_by_stock liées à ce produit
+			$sql = "DELETE FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_product=".$object->id;
+			$db->query($sql);
+			
+            dol_syslog(
+                "Trigger '" . $this->name . "' for action '$action' launched by " . __FILE__ . ". id=" . $object->id
+            );
+        }
+		//Stock
+		
+		elseif ($action == 'STOCK_DELETE') {
+        	//Suppression des lignes de la table alert_by_stock liées à cet entrepot
+			$sql = "DELETE FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_entrepot=".$object->id;
+			$db->query($sql);
+			
             dol_syslog(
                 "Trigger '" . $this->name . "' for action '$action' launched by " . __FILE__ . ". id=" . $object->id
             );

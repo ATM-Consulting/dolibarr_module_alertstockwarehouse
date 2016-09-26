@@ -15,5 +15,5 @@ dol_include_once('/alertstockwarehouse/class/stock.class.php');
 
 $PDOdb=new TPDOdb;
 
-$o=new TStock($db);
+$o=new TAlertStockWarehouse($db);
 $o->init_db_by_vars($PDOdb);

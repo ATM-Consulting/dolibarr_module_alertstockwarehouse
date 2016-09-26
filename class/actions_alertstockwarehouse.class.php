@@ -66,7 +66,7 @@ class ActionsAlertStockWarehouse
 		if (in_array('stockproductcard', explode(':', $parameters['context'])))
 		{
 			
-			$fk_product = GETPOST('id', 'int');
+			$fk_product = $object->id;
 			
 			define('INC_FROM_DOLIBARR',true);
 		
@@ -75,14 +75,14 @@ class ActionsAlertStockWarehouse
 			
 			
 			$result = '';
-			//Creation/Modification de la donnée
+			//Creation/Mise à jour/Suppresion de la donnée
 			if (strpos($action ,  'setlimite_') === 0)
 			{
 				$stocklimit = GETPOST(substr($action, 3), 'int');
 				$TRes = explode('_',$action);
 				
-				$stock = new TStock;
-				
+				$stock = new TAlertStockWarehouse;
+				//On récupère l'objet stock (seuil/produit/stock) 
 				$stock->fetch($TRes[1], $fk_product);
 				
    			
@@ -90,21 +90,22 @@ class ActionsAlertStockWarehouse
    				$stock->fk_product = $fk_product;
    				$stock->fk_entrepot = $TRes[1];
 				$stock->limite = $stocklimit;
-				//
+				//Si le champ a été vidé, suppression en bdd
 				if($stocklimit == NULL){
 					$stock->delete($PDOdb);
 				}else {
-				
+				//Sinon on enregistre en bdd
 					$stock->save($PDOdb);
 				}
 				
-				 if ($result < 0)
+				 if ($result < 0){
 				    setEventMessages($object->error, $object->errors, 'errors');
+				 }
 				  
 				$action='';
 			}
 			
-			//Récupération des données
+			//Récupération des données pour l'affichage
 			$sql = "SELECT e.rowid, e.label, e.entity, abs.fk_product, abs.limite";
 			$sql.= " FROM ".MAIN_DB_PREFIX."entrepot as e";
 			$sql.= ' LEFT JOIN '.MAIN_DB_PREFIX.'alert_by_stock as abs ON (abs.fk_entrepot = e.rowid AND abs.fk_product = '.(int) $fk_product.')';
@@ -115,6 +116,7 @@ class ActionsAlertStockWarehouse
 			if ($resql && $db->num_rows($resql) > 0)
 			{
 				$form = new Form($db);
+				//Affichage liste des seuils limite d'alerte 
 				while ($obj = $db->fetch_object($resql))
 				{
 					print '<tr><td>'.$form->editfieldkey("Seuil limite d'alerte pour entrepot ".$obj->label,'limite_'.$obj->rowid.'',$obj->limite,$object,$user->rights->produit->creer).'</td><td colspan="2">';

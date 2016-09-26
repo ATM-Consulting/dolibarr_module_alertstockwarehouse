@@ -48,7 +48,7 @@ class alertstockwarehousebox extends ModeleBoxes
         global $langs;
         $langs->load("boxes");
 		
-        $this->boxlabel = $langs->transnoentitiesnoconv("BoxAlertStockWarehouse");
+        $this->boxlabel = $langs->transnoentitiesnoconv("Seuil limite d'alerte en fonction d'un entrepot");
     }
 
     /**
@@ -57,19 +57,21 @@ class alertstockwarehousebox extends ModeleBoxes
      * 	@param		int		$max		Maximum number of records to load
      * 	@return		void
      */
+     //Fonction qui charge la box sur la page d'accueil
     public function loadBox($max = 5)
     {
         global $conf, $user, $langs, $db;
 
         $this->max = $max;
 
-        //include_once DOL_DOCUMENT_ROOT . "/alertstockwarehouse/class/alertstockwarehouse.class.php";
+        
 		
         $text = $langs->trans("Produits en alerte stock en fonction de son entrepot", $max);
         $this->info_box_head = array(
             'text' => $text,
             'limit' => dol_strlen($text)
         );
+		//Récuperation  des données liées au seuil dont la limite est supérieur à la quantité (produit/stock/seuil/quantité)
 		$sql = '
 				SELECT  p.rowid as fk_product, p.ref AS product_ref, p.label as product_label, p.fk_product_type, e.rowid AS fk_warehouse, e.label AS entrepot_label, ps.reel, abs.limite 
 				FROM `'.MAIN_DB_PREFIX.'product` p 
@@ -88,8 +90,9 @@ class alertstockwarehousebox extends ModeleBoxes
 
 				
 				
-			//	echo $sql;
+			
 		$result = $db->query($sql);
+		//Affichage
 		if ($result)
 		{
 				$num = $db->num_rows($result);
