@@ -2,7 +2,7 @@
 
 class TAlertStockWarehouse extends TObjetStd {
 
-	var $exist = false;
+	
 	//Création de la bdd
 	function __construct() {
 		parent::set_table(MAIN_DB_PREFIX.'alert_by_stock');
@@ -23,24 +23,15 @@ class TAlertStockWarehouse extends TObjetStd {
 	
 	
 	//Recuperation des données en fonction de l'entrepot lié à ce produit
-	function fetch($idEntrepot, $idProduct){
-		global $db, $conf, $user;
-			$sql="SELECT * FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_entrepot = ".$idEntrepot. " AND fk_product = ".$idProduct;
-			$result = $db->query($sql);
+	function loadByWarehouseProduct(&$PDOdb, $fk_warehouse, $fk_product){
 			
-			$donnees = $db->fetch_object($result);
-			
-			$this->rowid = $donnees->rowid;
-			$this->fk_entrepot = $donnees ->fk_entrepot;
-			$this->fk_product = $donnees ->fk_product;
-			$this->limite = $donnees->limite;
-			if($donnees->limite == null){
-				$this->exist = true;
-			} else {
-				$this->exist = false;
-			}
-		}
 		
-	
-	
+		global $db, $conf, $user;
+			$sql="SELECT rowid FROM ".MAIN_DB_PREFIX."alert_by_stock WHERE fk_entrepot = ".$fk_warehouse. " AND fk_product = ".$fk_product;
+			$result = $db->query($sql);
+			$donnees = $db->fetch_object($result);
+			$this->load($PDOdb, $donnees->rowid);
+		
+	}
+
 } 

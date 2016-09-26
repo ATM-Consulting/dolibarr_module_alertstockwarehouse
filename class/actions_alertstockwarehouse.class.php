@@ -81,12 +81,12 @@ class ActionsAlertStockWarehouse
 				$stocklimit = GETPOST(substr($action, 3), 'int');
 				$TRes = explode('_',$action);
 				
+   				$PDOdb = new TPDOdb;
 				$stock = new TAlertStockWarehouse;
 				//On récupère l'objet stock (seuil/produit/stock) 
-				$stock->fetch($TRes[1], $fk_product);
+				$stock->loadByWarehouseProduct($PDOdb,$TRes[1], $fk_product);
 				
    			
-   				$PDOdb = new TPDOdb;
    				$stock->fk_product = $fk_product;
    				$stock->fk_entrepot = $TRes[1];
 				$stock->limite = $stocklimit;
