@@ -87,7 +87,8 @@ class modAlertStockWarehouse extends DolibarrModules
 		//							'dir' => array('output' => 'othermodulename'),      // To force the default directories names
 		//							'workflow' => array('WORKFLOW_MODULE1_YOURACTIONTYPE_MODULE2'=>array('enabled'=>'! empty($conf->module1->enabled) && ! empty($conf->module2->enabled)', 'picto'=>'yourpicto@alertstockwarehouse')) // Set here all workflow context managed by module
 		//                        );
-		$this->module_parts = array('hooks'=>array("stockproductcard")
+		$this->module_parts = array('triggers' => 1,
+									'hooks'=>array("stockproductcard")
 									);
 
 		// Data directories to create when module is enabled.
@@ -138,7 +139,7 @@ class modAlertStockWarehouse extends DolibarrModules
 		// 'thirdparty'       to add a tab in third party view
 		// 'user'             to add a tab in user view
         $this->tabs = array('product:-stock'
-        					, 'product:+stock:Stock:alertstockwarehouse@alertstockwarehouse:$user->rights->alertstockwarehouse->read:/alertstockwarehouse/core/product/stock/product.php?id=__ID__' );
+        					, 'product:+stock:Stock:alertstockwarehouse@alertstockwarehouse:$user->rights->alertstockwarehouse->read:/alertstockwarehouse/htdocs/product/stock/product.php?id=__ID__' );
 
         // Dictionaries
 	    if (! isset($conf->alertstockwarehouse->enabled))

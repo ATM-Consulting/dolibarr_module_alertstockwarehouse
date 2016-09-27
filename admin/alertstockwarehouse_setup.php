@@ -96,15 +96,8 @@ dol_fiche_head(
 );
 
 // Setup page goes here
-$form=new Form($db);
-$var=false;
-print '<table class="noborder" width="100%">';
-print '<tr class="liste_titre">';
-print '<td>'.$langs->trans("Parameters").'</td>'."\n";
-print '<td align="center" width="20">&nbsp;</td>';
-print '<td align="center" width="100">'.$langs->trans("Value").'</td>'."\n";
 
-
+/*
 // Example with a yes / no select
 $var=!$var;
 print '<tr '.$bc[$var].'>';
@@ -128,7 +121,7 @@ print ajax_constantonoff('CONSTNAME');
 print '</td></tr>';
 
 print '</table>';
-
+*/
 llxFooter();
 
 $db->close();
