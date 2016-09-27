@@ -114,15 +114,16 @@ class InterfaceAlertStockWarehousetrigger
      */
     public function run_trigger($action, $object, $user, $langs, $conf)
     {
-    	define ('INC_FROM_DOLIBARR',true);
-    	dol_include_once('/alertstockwarehouse/config.php');
-		dol_include_once('/alertstockwarehouse/class/stock.class.php');
-		$PDOdb = new TPDOdb;
+    
         // Put here code you want to execute when a Dolibarr business events occurs.
         // Data and type of action are stored into $object and $action
         // Users
        if ($action == 'PRODUCT_DELETE') {
         	//Suppression des lignes de la table alert_by_stock liées à ce produit
+	        define ('INC_FROM_DOLIBARR',true);
+	    	dol_include_once('/alertstockwarehouse/config.php');
+			dol_include_once('/alertstockwarehouse/class/stock.class.php');
+			$PDOdb = new TPDOdb;
 			TAlertStockWarehouse::deleteForProduct($PDOdb, $object->id);
 			
             dol_syslog(
@@ -133,6 +134,10 @@ class InterfaceAlertStockWarehousetrigger
 		
 		elseif ($action == 'WAREHOUSE_DELETE') {
         	//Suppression des lignes de la table alert_by_stock liées à cet entrepot
+	        define ('INC_FROM_DOLIBARR',true);
+	    	dol_include_once('/alertstockwarehouse/config.php');
+			dol_include_once('/alertstockwarehouse/class/stock.class.php');
+			$PDOdb = new TPDOdb;
 			TAlertStockWarehouse::deleteForWarehouse($PDOdb, $object->id);
 			
             dol_syslog(
