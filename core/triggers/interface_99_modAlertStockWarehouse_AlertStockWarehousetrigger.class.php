@@ -112,7 +112,7 @@ class InterfaceAlertStockWarehousetrigger
      * 	@param		conf		$conf		Object conf
      * 	@return		int						<0 if KO, 0 if no triggered ran, >0 if OK
      */
-    public function run_trigger($action, $object, $user, $langs, $conf)
+    public function run_trigger($action, $object, User $user, Translate $langs, Conf $conf)
     {
     
         // Put here code you want to execute when a Dolibarr business events occurs.
